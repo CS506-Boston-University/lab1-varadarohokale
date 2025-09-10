@@ -89,12 +89,19 @@ class Sub:
         # TODO: Implement string representation for subtraction
         # Should handle parentheses similar to Mul class
         # Hint: Look at how Mul class handles parentheses
-        pass
+
+        left = f"( {self.p1} )" if isinstance(self.p1, (Add, Sub)) else str(self.p1)
+        right = f"( {self.p2} )" if isinstance(self.p2, (Add, Sub, Div)) else str(self.p2)
+        return f"{left} - {right}"  
+
 
     def evaluate(self, x_value):
         # TODO: Implement evaluation for subtraction
         # Should return the difference of the two operands
-        pass
+
+        left_val = self.p1.evaluate(x_value) if hasattr(self.p1, "evaluate") else self.p1
+        right_val = self.p2.evaluate(x_value) if hasattr(self.p2, "evaluate") else self.p2
+        return left_val - right_val
 
     def simplify(self):
         # TODO (Optional Exercise): Implement simplification
@@ -112,12 +119,21 @@ class Div:
         # TODO: Implement string representation for division
         # Should handle parentheses similar to Mul class
         # Hint: Look at how Mul class handles parentheses
-        pass
+        left = f"( {self.p1} )" if isinstance(self.p1, (Add, Sub, Div)) else str(self.p1)
+        right = f"( {self.p2} )" if isinstance(self.p2, (Add, Sub, Div)) else str(self.p2)
+        return f"{left} / {right}"  # for Div
 
     def evaluate(self, x_value):
         # TODO: Implement evaluation for division
         # Should return the quotient of the two operands (use integer division //)
-        pass
+        
+        left_val = self.p1.evaluate(x_value) if hasattr(self.p1, "evaluate") else self.p1
+        right_val = self.p2.evaluate(x_value) if hasattr(self.p2, "evaluate") else self.p2
+
+        if right_val == 0:
+            raise ZeroDivisionError("Division by zero is undefined")
+
+        return left_val // right_val  # integer division
 
     def simplify(self):
         # TODO (Optional Exercise): Implement simplification
